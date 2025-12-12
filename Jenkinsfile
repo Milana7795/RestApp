@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    tools {
+        // This name must match exactly what you set in 'Global Tool Configuration'
+        maven 'MyMaven' 
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                // Jenkins does this automatically for "Pipeline from SCM", 
+                // but it's good to know this stage exists implicitly.
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'mvn clean install' // For Mac/Linux
+                    } else {
+                        bat 'mvn clean install' // For Windows
+                    }
+                }
+            }
+        }
+ stage('Run JAR') {
+            steps {
+                echo 'Running the JAR file...'
+                script {
+                    if (isUnix()) {
+                        sh 'java -jar target/RestDemo-0.0.1-SNAPSHOT.jar'
+
+                    } 
+                }
+            }
+        }
+    }
+
+post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+
