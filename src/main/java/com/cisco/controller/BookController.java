@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cisco.entity.Book;
-import com.cisco.entity.User;
+
 import com.cisco.exception.AuthorNotFoundException;
 import com.cisco.exception.BookNotFoundException;
-import com.cisco.exception.UserNotFoundException;
+//import com.cisco.exception.UserNotFoundException;
 import com.cisco.service.BookService;
 
 @RestController
@@ -35,7 +35,7 @@ public class BookController {
 	
 	@GetMapping
 	 ResponseEntity<List<Book>> getAllBooks(){
-	
+	System.out.println("************Restdemo project updated***************************");
 		return ResponseEntity.ok(service.getAllBooks());
 	}
 	
